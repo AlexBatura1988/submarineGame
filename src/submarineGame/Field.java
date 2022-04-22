@@ -52,6 +52,7 @@ public class Field {
 			System.out.println();
 		}
 	}
+
 	public void printSubmarineMap() {
 		System.out.println("  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20");
 		for (int i = 0; i < 10; i++) {
@@ -63,18 +64,45 @@ public class Field {
 			System.out.println();
 		}
 	}
-	
+
 	public Submarine createSubmarine() {
-		//put first one cell submarine
+		// put first one cell submarine
 		int x;
 		int y;
 		ArrayList<HashMap<Integer, Integer>> submarinePointList = new ArrayList<>();
-		for (int i = 0; i < 4; i ++) {
+		do {
 			x = (int) (Math.random() * 10);
 			y = (int) (Math.random() * 20);
-			mapWithSubmarines[x][y] = SUBMARINE;
-			submarinePointList.add(new HashMap<>(x,y));
-		}
+		}while(!checkFreePoint(x, y, null));
+		mapWithSubmarines[x][y] = SUBMARINE;
+		submarinePointList.add(new HashMap<>(x, y));
 		return new Submarine(submarinePointList);
+	}
+
+	private boolean checkFreePoint(int x, int y, ArrayList<HashMap<Integer, Integer>> submarinePointsList) {
+		char point = mapWithSubmarines[x][y];
+		if (point != FREE_POINT) {
+			return false;
+		}
+		// checking nearby fields
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				int xi = x + i;
+				int yj = y + j;
+				if (xi >= 0 && xi < 10 && yj >= 0 && yj < 20) {
+					if (submarinePointsList != null) {
+						if (!submarinePointsList.contains(new HashMap<>(xi, yj))) {
+							if (mapWithSubmarines[xi][yj] != FREE_POINT)
+								return false;
+						}
+					} else {
+						if (mapWithSubmarines[xi][yj] != FREE_POINT)
+							return false;
+					}
+				}
+			}
+		}
+
+		return true;
 	}
 }
