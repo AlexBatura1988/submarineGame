@@ -3,11 +3,15 @@ package submarineGame;
 import java.util.ArrayList;
 
 public class Field {
-	private static final char  FREE_POINT = '.';
+	private static final char FREE_POINT = '.';
+	private static final char SUBMARINE = 'X';
 	protected ArrayList<Character> letters;
 	protected char[][] map;
+	protected char[][] mapWithSubmarines;
 
 	public Field() {
+		map = new char[10][20];
+		mapWithSubmarines = new char[10][20];
 		letters = new ArrayList<Character>() {
 			{
 				add('A');
@@ -23,8 +27,17 @@ public class Field {
 
 			}
 		};
-		map = new char[10][20];
+		initMaps();
 
+	}
+
+	protected void initMaps() {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 20; j++) {
+				map[i][j] = FREE_POINT;
+				mapWithSubmarines[i][j] = FREE_POINT;
+			}
+		}
 	}
 
 	public void printMap() {
@@ -32,12 +45,21 @@ public class Field {
 		for (int i = 0; i < 10; i++) {
 			System.out.print(letters.get(i) + " ");
 			for (int j = 0; j < 20; j++) {
-				map[i][j] = FREE_POINT;
 				System.out.print(map[i][j] + "  ");
 
 			}
 			System.out.println();
 		}
+	}
+	public void printSubmarineMap() {
+		System.out.println("  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20");
+		for (int i = 0; i < 10; i++) {
+			System.out.print(letters.get(i) + " ");
+			for (int j = 0; j < 20; j++) {
+				System.out.print(mapWithSubmarines[i][j] + "  ");
 
+			}
+			System.out.println();
+		}
 	}
 }
