@@ -1,6 +1,7 @@
 package submarineGame;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Field {
 	private static final char FREE_POINT = '.';
@@ -61,5 +62,19 @@ public class Field {
 			}
 			System.out.println();
 		}
+	}
+	
+	public Submarine createSubmarine() {
+		//put first one cell submarine
+		int x;
+		int y;
+		ArrayList<HashMap<Integer, Integer>> submarinePointList = new ArrayList<>();
+		for (int i = 0; i < 4; i ++) {
+			x = (int) (Math.random() * 10);
+			y = (int) (Math.random() * 20);
+			mapWithSubmarines[x][y] = SUBMARINE;
+			submarinePointList.add(new HashMap<>(x,y));
+		}
+		return new Submarine(submarinePointList);
 	}
 }
