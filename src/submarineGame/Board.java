@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
-public class Field {
+public class Board {
 	private static final char FREE_POINT = '.';
 	private static final char SUBMARINE = 'X';
 	protected ArrayList<Character> letters;
@@ -14,7 +14,7 @@ public class Field {
 	protected char[][] map;
 	protected char[][] mapWithSubmarines;
 
-	public Field() {
+	public Board() {
 		map = new char[10][20];
 		mapWithSubmarines = new char[10][20];
 		submarines = new ArrayList<>();
