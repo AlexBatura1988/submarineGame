@@ -9,30 +9,17 @@ import java.util.TreeMap;
 public class Board {
 	private static final char FREE_POINT = '.';
 	private static final char SUBMARINE = 'X';
-	protected ArrayList<Character> letters;
-	protected ArrayList<Submarine> submarines;
+	protected char[] letters;
+	protected Submarine[] submarines;
 	protected char[][] map;
 	protected char[][] mapWithSubmarines;
 
 	public Board() {
 		map = new char[10][20];
 		mapWithSubmarines = new char[10][20];
-		submarines = new ArrayList<>();
-		letters = new ArrayList<Character>() {
-			{
-				add('A');
-				add('B');
-				add('C');
-				add('D');
-				add('E');
-				add('F');
-				add('G');
-				add('H');
-				add('I');
-				add('J');
-
-			}
-		};
+		submarines = new Submarine[5];
+		letters = "ABCDRFGHIJ".toCharArray();
+			
 		initMaps();
 
 	}
@@ -45,14 +32,14 @@ public class Board {
 			}
 		}
 		for( int i = 0; i < 5; i++) {
-			submarines.add(createSubmarine());
+			submarines[i] = createSubmarine();
 		}
 	}
 
 	public void printMap() {
 		System.out.println("  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20");
 		for (int i = 0; i < 10; i++) {
-			System.out.print(letters.get(i) + " ");
+			System.out.print(letters[i] + " ");
 			for (int j = 0; j < 20; j++) {
 				System.out.print(map[i][j] + "  ");
 
@@ -64,7 +51,7 @@ public class Board {
 	public void printSubmarineMap() {
 		System.out.println("  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20");
 		for (int i = 0; i < 10; i++) {
-			System.out.print(letters.get(i) + " ");
+			System.out.print(letters[i] + " ");
 			for (int j = 0; j < 20; j++) {
 				System.out.print(mapWithSubmarines[i][j] + "  ");
 
@@ -77,13 +64,13 @@ public class Board {
 		// put first one cell submarine
 		int x;
 		int y;
-		ArrayList<Pair<Integer, Integer>> submarinePointsList = new ArrayList<>();
+		Point[] submarinePointsList = new Point[1];
 		do {
 			x = (int) (Math.random() * 10);
 			y = (int) (Math.random() * 20);
 		}while(!checkFreePoint(x, y, null));
 		mapWithSubmarines[x][y] = SUBMARINE;
-		submarinePointsList.add(new Pair<>(x,y));
+		submarinePointsList[0] = new Point(x,y);
 		
 		Random random = new Random();
 		for (int i = 0; i < 3; i++) {
@@ -97,15 +84,20 @@ public class Board {
                         nextY = y + (1 - ((int) (Math.random() * 3)));
                         nextX = x;
                     }
-                    counter++;
+                    
                     // checking if x is in range 1..10, y in 1..20 and its not already placed
                 } while (((nextX < 0 || nextX >= 10) || (nextY < 0 || nextY >= 20)) ||
-                        submarinePointsList.contains(new Pair<>(nextX, nextY)) ||
-                        counter < 10);
+                        arrayContains(submarinePointsList, new Point(nextX, nextY)));
 
                 if (checkFreePoint(nextX, nextY, submarinePointsList)) {
                     mapWithSubmarines[nextX][nextY] = SUBMARINE;
-                    submarinePointsList.add(new Pair<>(nextX, nextY));
+                    Point[] updateList = new Point[submarinePointsList.length + 1];
+                    int index = 0;
+                    for(Point point : submarinePointsList) {
+                    	updateList[index++] = point; 
+                    }
+                    updateList[index] = new Point(nextX,nextY);
+                    submarinePointsList = updateList;
                     x = nextX;
                     y = nextY;
                 }
@@ -114,7 +106,16 @@ public class Board {
 		return new Submarine(submarinePointsList);
 	}
 
-	private boolean checkFreePoint(int x, int y, ArrayList<Pair<Integer, Integer>> submarinePointsList) {
+	private boolean arrayContains(Point[] points, Point point) {
+		for(Point pointFromList : points) {
+			if(pointFromList.equals(point)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean checkFreePoint(int x, int y, Point[] submarinePointsList) {
 		char point = mapWithSubmarines[x][y];
 		if (point != FREE_POINT) {
 			return false;
@@ -126,7 +127,7 @@ public class Board {
 				int yj = y + j;
 				if (xi >= 0 && xi < 10 && yj >= 0 && yj < 20) {
 					if (submarinePointsList != null) {
-						if (!submarinePointsList.contains(new Pair<>(xi, yj))) {
+						if (!arrayContains(submarinePointsList, new Point(xi, yj))) {
 							if (mapWithSubmarines[xi][yj] != FREE_POINT)
 								return false;
 						}
@@ -141,3 +142,4 @@ public class Board {
 		return true;
 	}
 }
+
