@@ -2,20 +2,20 @@ package submarineGame;
 
 public class Point {
 
-	private int first;
-	private int second;
+	private int x;
+	private int y;
 
-	public Point(int first, int second) {
-		this.first = first;
-		this.second = second;
+	public Point(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 
-	public int getFirst() {
-		return first;
+	public int getX() {
+		return x;
 	}
 
-	public int getSecond() {
-		return second;
+	public int getY() {
+		return y;
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class Point {
 		if (getClass() != obj.getClass())
 			return false;
 		Point other = (Point) obj;
-		return first == other.first && second == other.second;
+		return x == other.x && y == other.y;
 	}
 
 }
