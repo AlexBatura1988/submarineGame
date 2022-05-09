@@ -1,15 +1,11 @@
 package submarineGame;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-import java.util.TreeMap;
 
 public class Board {
 	private static final char FREE_POINT = '.';
 	private static final char SUBMARINE = 'X';
-	protected char[] letters;
+	protected final char[] letters;
 	protected Submarine[] submarines;
 	protected char[][] map;
 	protected char[][] mapWithSubmarines;
@@ -187,13 +183,20 @@ public class Board {
 					int xi = point.getX() + i;
 					int yj = point.getY() + j;
 					if (xi >= 0 && xi < 10 && yj >= 0 && yj < 20) {
-						if (map[xi][yj] == '.')
+						if (map[xi][yj] == '.' || map[xi][yj] == 'm')
 							map[xi][yj] = 'O';
 					}
 				}
 			}
 		}
 
+	}
+
+	boolean allSubmarinesDetected() {
+		for (Submarine submarine : submarines)
+			if (!submarine.isDetected())
+				return false;
+		return true;
 	}
 
 	private int indexOf(char[] chars, char c) {
