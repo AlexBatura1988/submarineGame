@@ -5,7 +5,7 @@ import java.util.Random;
 public class Board {
 	private static final char FREE_POINT = '.';
 	private static final char SUBMARINE = 'X';
-	protected final char[] letters;
+	protected final static char[] LETTERS = "ABCDRFGHIJ".toCharArray();
 	protected Submarine[] submarines;
 	protected char[][] map;
 	protected char[][] mapWithSubmarines;
@@ -15,7 +15,7 @@ public class Board {
 		map = new char[10][20];
 		mapWithSubmarines = new char[10][20];
 		submarines = new Submarine[5];
-		letters = "ABCDRFGHIJ".toCharArray();
+		
 
 		initMaps();
 
@@ -36,7 +36,7 @@ public class Board {
 	public void printMap() {
 		System.out.println("  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20");
 		for (int i = 0; i < 10; i++) {
-			System.out.print(letters[i] + " ");
+			System.out.print(LETTERS[i] + " ");
 			for (int j = 0; j < 20; j++) {
 				System.out.print(map[i][j] + "  ");
 
@@ -48,7 +48,7 @@ public class Board {
 	public void printSubmarineMap() {
 		System.out.println("  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20");
 		for (int i = 0; i < 10; i++) {
-			System.out.print(letters[i] + " ");
+			System.out.print(LETTERS[i] + " ");
 			for (int j = 0; j < 20; j++) {
 				System.out.print(mapWithSubmarines[i][j] + "  ");
 
@@ -143,7 +143,7 @@ public class Board {
 		int x;
 		int y;
 		try {
-			x = indexOf(letters, input.toUpperCase().charAt(0));
+			x = indexOf(LETTERS, input.toUpperCase().charAt(0));
 			y = Integer.parseInt(input.substring(1)) - 1;
 
 		} catch (Exception e) {

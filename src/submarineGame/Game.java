@@ -1,9 +1,18 @@
 package submarineGame;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 public class Game {
 	private Board board;
+	private File playerFile;
+	private FileWriter writer;
+	private Scanner fileScanner;
+	private Player player;
+	private Scanner scanner;
+	public static boolean replay = false;
+
 	private int guesses = 100;
 	private int points = 1000;
 
@@ -11,8 +20,21 @@ public class Game {
 		this.board = board;
 	}
 
-	public void run() throws OutOfBoardException  {
+	public void run() throws OutOfBoardException {
 		Scanner scanner = new Scanner(System.in);
+		player = new Player();
+		System.out.println("Input your name:");
+		player.setName(scanner.nextLine());
+		System.out.println("Input your email:");
+		player.setEmail(scanner.nextLine());
+		System.out.println("Input your phone:");
+		player.setPhone(scanner.nextLine());
+		playerFile = new File(player.toString());
+		
+		
+		
+		
+		
 		printStats();
 		board.printMap();
 		System.out.println("Input coordinates:");
@@ -26,7 +48,6 @@ public class Game {
 
 			} else if (input.equals("hint")) {
 				board.printSubmarineMap();
-				
 
 			} else {
 				try {
@@ -51,9 +72,7 @@ public class Game {
 					}
 				} else {
 					System.out.println("WRONG INPUT, TRY AGAIN");
-					
-					//throw new OutOfBoardException();
-					
+
 				}
 			}
 		}
