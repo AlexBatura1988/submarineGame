@@ -11,7 +11,7 @@ public class Game {
 		this.board = board;
 	}
 
-	public void run() {
+	public void run() throws OutOfBoardException  {
 		Scanner scanner = new Scanner(System.in);
 		printStats();
 		board.printMap();
@@ -29,7 +29,12 @@ public class Game {
 				
 
 			} else {
-				hitResult = parseInput(input);
+				try {
+					hitResult = parseInput(input);
+				} catch (OutOfBoardException e) {
+					System.out.println(e.getMessage());
+					continue;
+				}
 				if (hitResult) {
 					guesses -= 1;
 
@@ -46,13 +51,16 @@ public class Game {
 					}
 				} else {
 					System.out.println("WRONG INPUT, TRY AGAIN");
+					
+					//throw new OutOfBoardException();
+					
 				}
 			}
 		}
 
 	}
 
-	private boolean parseInput(String input) {
+	private boolean parseInput(String input) throws OutOfBoardException {
 		int i = board.makeHit(input);
 		if (i != 0) {
 			points += i;

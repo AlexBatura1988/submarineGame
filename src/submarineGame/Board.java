@@ -139,7 +139,7 @@ public class Board {
 		return true;
 	}
 
-	public int makeHit(String input) {
+	public int makeHit(String input) throws OutOfBoardException {
 		int x;
 		int y;
 		try {
@@ -149,9 +149,9 @@ public class Board {
 		} catch (Exception e) {
 			return 0;
 		}
-		if (x < 0 || y < 0 || y > 19) {
-			return 0;
-		}
+		if (x < 0 || y < 0 || y > 19) throw new OutOfBoardException();
+			
+		
 		if (mapWithSubmarines[x][y] == SUBMARINE) {
 			map[x][y] = 'H';
 			for (Submarine submarine : submarines) {
